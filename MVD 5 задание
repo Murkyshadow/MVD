@@ -1,0 +1,84 @@
+CREATE TABLE Должности
+(
+  код_должности INT NOT NULL,
+  Наименование_должности INT NOT NULL,
+  Оклад INT NOT NULL,
+  Обязанности INT NOT NULL,
+  Требования INT NOT NULL,
+  PRIMARY KEY (код_должности)
+);
+
+CREATE TABLE Виды_преступлений
+(
+  Код_вида_преступления INT NOT NULL,
+  Наименование INT NOT NULL,
+  Статья INT NOT NULL,
+  Наказание INT NOT NULL,
+  Срок INT NOT NULL,
+  PRIMARY KEY (Код_вида_преступления),
+  UNIQUE (Наименование),
+  UNIQUE (Статья)
+);
+
+CREATE TABLE Звания
+(
+  Код_звания INT NOT NULL,
+  Наименование INT NOT NULL,
+  Надбавка INT NOT NULL,
+  Обязанности INT NOT NULL,
+  Требования INT NOT NULL,
+  PRIMARY KEY (Код_звания),
+  UNIQUE (Наименование)
+);
+
+CREATE TABLE Сотрудники
+(
+  Код_сотрудника INT NOT NULL,
+  ФИО INT NOT NULL,
+  Возраст INT NOT NULL,
+  Телефон INT NOT NULL,
+  Паспортные_данные INT NOT NULL,
+  Код_должности INT NOT NULL,
+  Код_звания INT NOT NULL,
+  Пол INT NOT NULL,
+  код_должности INT NOT NULL,
+  Код_звания INT NOT NULL,
+  PRIMARY KEY (Код_сотрудника),
+  FOREIGN KEY (код_должности) REFERENCES Должности(код_должности),
+  FOREIGN KEY (Код_звания) REFERENCES Звания(Код_звания),
+  UNIQUE (Телефон),
+  UNIQUE (Паспортные_данные),
+  UNIQUE (Код_должности),
+  UNIQUE (Код_звания)
+);
+
+CREATE TABLE Преступники
+(
+  Номер_дела INT NOT NULL,
+  ФИО INT NOT NULL,
+  Дата_рождения INT NOT NULL,
+  Пол INT NOT NULL,
+  Адрес INT NOT NULL,
+  Код_вида_преступления INT NOT NULL,
+  Код_пострадавшего INT NOT NULL,
+  Состояние INT NOT NULL,
+  код_сотрудника INT NOT NULL,
+  Код_вида_преступления INT NOT NULL,
+  Код_сотрудника INT NOT NULL,
+  PRIMARY KEY (Номер_дела),
+  FOREIGN KEY (Код_вида_преступления) REFERENCES Виды_преступлений(Код_вида_преступления),
+  FOREIGN KEY (Код_сотрудника) REFERENCES Сотрудники(Код_сотрудника),
+  UNIQUE (Код_вида_преступления),
+  UNIQUE (Код_пострадавшего),
+  UNIQUE (код_сотрудника)
+);
+
+CREATE TABLE Пострадавшие_
+(
+  Код_пострадавшего INT NOT NULL,
+  ФИО INT NOT NULL,
+  Пол INT NOT NULL,
+  адес INT NOT NULL,
+  Номер_дела INT,
+  FOREIGN KEY (Номер_дела) REFERENCES Преступники(Номер_дела)
+);
